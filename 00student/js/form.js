@@ -30,6 +30,11 @@ studentForm.addEventListener("submit", function (event) {
         email: stuFormData.get("email").trim(),
         dateOfBirth: stuFormData.get("dateOfBirth"),
     }
+    //유효성 체크하는 함수 호출하기
+    if(validateStudent(studentData)) {
+        //검증체크 실패하면 리턴하기
+        return;
+    }
 
 }); //submit 이벤트
 
