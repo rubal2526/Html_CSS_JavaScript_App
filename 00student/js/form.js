@@ -103,22 +103,22 @@ function loadStudents() {
     console.log("학생 목록 Load 중.....");
     fetch(`${API_BASE_URL}/api/students`) //Promise
         .then((response) => {
-            if (!response.ok) {
-                throw new Error("학생 목록을 불러오는데 실패했습니다!.");
-            }
+            // if (!response.ok) {
+            //     throw new Error("<<< 학생 목록을 불러오는데 실패했습니다!. ");
+            // }
             return response.json();
         })
         .then((students) => renderStudentTable(students))
         .catch((error) => {
-            console.log("Error: " + error);
-            alert("학생 목록을 불러오는데 실패했습니다!.");
+            console.log(error);
+            alert(">>> 학생 목록을 불러오는데 실패했습니다!.");
         });
 };
 
 function renderStudentTable(students) {
     console.log(students);
     studentTableBody.innerHTML = "";
-    //[{},{},{}] [] - students, {} - student
+    // [{},{},{}] [] - students, {} - student
     students.forEach((student) => {
         //<tr> 엘리먼트를 생성하기 <tr><td>홍길동</td><td>aaa</td></tr>
         const row = document.createElement("tr");
@@ -128,9 +128,9 @@ function renderStudentTable(students) {
                     <td>${student.name}</td>
                     <td>${student.studentNumber}</td>
                     <td>${student.detail ? student.detail.address : "-"}</td>
-                    <td>${student.detail?.phoneNumber ?? "-"}</td>
+                    <td>${student.detail?.phoneNumber?? "-"}</td>
                     <td>${student.detail?.email ?? "-"}</td>
-                    <td>${student.detail ?.dateOfBirth ?? "-"}</td>
+                    <td>${student.detail?.dateOfBirth ?? "-"}</td>
                     <td>
                         <button class="edit-btn" onclick="editStudent(${student.id})">수정</button>
                         <button class="delete-btn" onclick="deleteStudent(${student.id})">삭제</button>
@@ -139,5 +139,4 @@ function renderStudentTable(students) {
         //<tbody>의 아래에 <tr>을 추가시켜 준다.
         studentTableBody.appendChild(row);
     });    
-
 }//renderStudentTable
