@@ -153,6 +153,18 @@ function editStudent(studentId) {
         });
 }//editStudent
 
+//입력필드 초기화, 수정모드에서 등록모드로 전환
+function resetform() {
+    //form 초기화
+    studentForm.reset();
+    //수정 Mode 설정하는 변수 초기화
+    editingStudentId = null;
+    //submit 버튼의 타이틀을 학생 등록 변경
+    submitButton.textContent = "학생 등록";
+    //cancle 버튼의 사라지게
+    cancelButton.style.display = 'none';
+}//resetform
+
 //입력항목의 값의 유효성을 체크하는 함수
 function validateStudent(student) {// 필수 필드 검사
     if (!student.name) {
