@@ -83,8 +83,8 @@ function createStudent(studentData) {
 }//createStudent
 
 //Student 삭제 함수
-function deleteStudent(studentId) {
-    if (!confirm(`ID = ${studentId} 인 학생을 정말로 삭제하시겠습니까?`)) {
+function deleteStudent(studentId, studentName) {
+    if (!confirm(`이름 = ${studentName} 학생을 정말로 삭제하시겠습니까?`)) {
         return;
     }
     console.log('삭제처리 ...');
@@ -203,7 +203,7 @@ function renderStudentTable(students) {
                     <td>${student.detail?.dateOfBirth ?? "-"}</td>
                     <td>
                         <button class="edit-btn" onclick="editStudent(${student.id})">수정</button>
-                        <button class="delete-btn" onclick="deleteStudent(${student.id},${student.name})">삭제</button>
+                        <button class="delete-btn" onclick="deleteStudent(${student.id},'${student.name}')">삭제</button>
                     </td>
                 `;
         //<tbody>의 아래에 <tr>을 추가시켜 준다.
