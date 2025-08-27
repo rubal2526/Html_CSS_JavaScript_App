@@ -6,6 +6,8 @@ var editingStudentId = null;
 //DOM 엘리먼트 가져오기
 const studentForm = document.getElementById("studentForm");
 const studentTableBody = document.getElementById("studentTableBody");
+const submitButton = document.querySelector("button[type='submit']");
+const cancelButton = document.querySelector(".cancle-btn");
 
 //Document Load 이벤트 처리하기
 document.addEventListener("DOMContentLoaded", function () {
