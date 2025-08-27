@@ -154,7 +154,7 @@ function editStudent(studentId) {
 }//editStudent
 
 //입력필드 초기화, 수정모드에서 등록모드로 전환
-function resetform() {
+function resetForm() {
     //form 초기화
     studentForm.reset();
     //수정 Mode 설정하는 변수 초기화
