@@ -48,10 +48,10 @@ studentForm.addEventListener("submit", function (event) {
     console.log(studentData);
 
     //현재 수정중인 학생Id가 있으면 수정처리
-    if(editingStudentId){
+    if (editingStudentId) {
         //서버로 Student 수정 요청하기
         updateStudent(editingStudentId, studentData);
-    }else {
+    } else {
         //서버로 Student 등록 요청하기
         createStudent(studentData);
     }
@@ -280,7 +280,8 @@ function loadStudents() {
         .then((students) => renderStudentTable(students))
         .catch((error) => {
             console.log(error);
-            alert(">>> 학생 목록을 불러오는데 실패했습니다!.");
+            //alert(">>> 학생 목록을 불러오는데 실패했습니다!.");
+            showError("학생 목록을 불러오는데 실패했습니다!.");
         });
 };
 
@@ -309,3 +310,20 @@ function renderStudentTable(students) {
         studentTableBody.appendChild(row);
     });
 }//renderStudentTable
+
+//성공 메시지 출력
+function showSuccess(message) {
+    formErrorSpan.textContent = message;
+    formErrorSpan.style.display = 'block';
+    formErrorSpan.style.color = '#28a745';
+}
+//에러 메시지 출력
+function showError(message) {
+    formErrorSpan.textContent = message;
+    formErrorSpan.style.display = 'block';
+    formErrorSpan.style.color = '#dc3545';
+}
+//메시지 초기화
+function clearMessages() {
+    formErrorSpan.style.display = 'none';
+}
