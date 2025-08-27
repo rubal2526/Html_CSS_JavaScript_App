@@ -59,5 +59,46 @@
             <tbody></tbody>
         </table>
     </div>
+
+    <script type="text/javascript">
+      //전역변수
+      const API_BASE_URL = "http://localhost:8080";
+
+      //DOM 엘리먼트 가져오기
+      const bookForm = document.getElementById("bookForm");
+      const bookTableBody = document.getElementById("bookTableBody");
+
+      //Document Load 이벤트 처리하기
+      document.addEventListener("DOMContentLoaded", function() {
+          loadBooks();
+      });
+      //StudentForm 의 Submit 이벤트 처리하기
+      bookForm.addEventListener("submit", function(event){
+        //기본으로 설정된 Event가 동작하지 않도록 하기 위함
+        event.preventDefault();
+        console.log("Form 이 체출 되었음....")
+
+        //FormData 객체생성 <form>엘리먼트를 객체로 변환
+        const bookFormData = new FormData(bookForm);
+        bookFormData.forEach((value, key) => {
+          console.log(key + ' = ' +  value);
+        });
+
+        //사용자 정의 Book Object Literal 객체생성 (공백 제거 trim())
+        const bookData = {
+          name: bookFormData.get("title").trim(),
+          studentNumber:bookFormData.get("author").trim(),
+          address: bookFormData.get("isbn").trim(),
+          phoneNumber: bookFormData.get("price").trim(),
+          email: bookFormData.get("publishDate"),
+        }
+
+      }); //submit 이벤트
+
+      //Student(학생) 목록을 Load 하는 함수
+      function loadBooks() {
+          console.log("책 목록 Load 중.....");
+      }
+    </script>
 </body>
 </html>
