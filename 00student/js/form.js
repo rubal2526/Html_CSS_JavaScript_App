@@ -270,18 +270,27 @@ function isValidEmail(email) {
 //Student(학생) 목록을 Load 하는 함수
 function loadStudents() {
     console.log("학생 목록 Load 중.....");
-    fetch(`${API_BASE_URL}/api/students`) //Promise
-        .then((response) => {
-            // if (!response.ok) {
-            //     throw new Error("<<< 학생 목록을 불러오는데 실패했습니다!. ");
-            // }
+    fetch(`${API_BASE_URL}/api/students2`) //Promise
+        .then(async (response) => {
+            if (!response.ok) {
+                //응답 본문을 읽어서 에러 메시지 추출
+                const errorData = await response.json();
+                throw new Error(`${errorData.message}`);
+            }
             return response.json();
         })
         .then((students) => renderStudentTable(students))
         .catch((error) => {
             console.log(error);
             //alert(">>> 학생 목록을 불러오는데 실패했습니다!.");
-            showError("학생 목록을 불러오는데 실패했습니다!.");
+            showError(error.message);
+            studentTableBody.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align: center; color: #dc3545;">
+                        오류: 데이터를 불러올 수 없습니다.
+                    </td>
+                </tr>
+            `;
         });
 };
 
