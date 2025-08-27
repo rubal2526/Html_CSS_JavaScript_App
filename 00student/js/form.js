@@ -8,6 +8,7 @@ const studentForm = document.getElementById("studentForm");
 const studentTableBody = document.getElementById("studentTableBody");
 const submitButton = document.querySelector("button[type='submit']");
 const cancelButton = document.querySelector(".cancel-btn");
+const formErrorSpan = document.getElementById("formError");
 
 //Document Load 이벤트 처리하기
 document.addEventListener("DOMContentLoaded", function () {
@@ -174,7 +175,7 @@ function updateStudent(studentId, studentData) {
                 //status code와 message를 확인하기
                 if (response.status === 409) {
                     //중복 오류 처리
-                    throw new Error(`${errorData.message}(에러코드: ${errorData.statusCode})` || '중복 되는 정보가 있습니다.');
+                    throw new Error(`${errorData.message} ( 에러코드: ${errorData.statusCode} )` || '중복 되는 정보가 있습니다.');
                 } else {
                     //기타 오류 처리
                     throw new Error(errorData.message || '학생 수정에 실패했습니다.')
