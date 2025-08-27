@@ -25,10 +25,12 @@ studentForm.addEventListener("submit", function (event) {
     const studentData = {
         name: stuFormData.get("name").trim(),
         studentNumber: stuFormData.get("studentNumber").trim(),
-        address: stuFormData.get("address").trim(),
-        phoneNumber: stuFormData.get("phoneNumber").trim(),
-        email: stuFormData.get("email").trim(),
-        dateOfBirth: stuFormData.get("dateOfBirth"),
+        detailRequest: {
+            address: stuFormData.get("address").trim(),
+            phoneNumber: stuFormData.get("phoneNumber").trim(),
+            email: stuFormData.get("email").trim(),
+            dateOfBirth: stuFormData.get("dateOfBirth") || null,
+        }
     }
 
     //유효성 체크하는 함수 호출하기
@@ -41,7 +43,7 @@ studentForm.addEventListener("submit", function (event) {
     console.log(studentData);
 
     //서버로 Student 등록 요청하기
-    createStudent(stuFormData);
+    createStudent(studentData);
 
 }); //submit 이벤트
 
@@ -69,6 +71,7 @@ function createStudent(studentData) {
         })
         .then((result) => {
             alert("학생이 성공적으로 등록되었습니다!");
+            //입력 Form의 input의 값 초기화
             studentForm.reset();
             //목록 새로 고침
             loadStudents();
@@ -98,34 +101,36 @@ function validateStudent(student) {// 필수 필드 검사
         return false;
     }
 
-    if (!student.address) {
-        alert("주소를 입력해주세요.");
-        return false;
-    }
+    if (student.detailRequest) {
+        const studentDetail = student.detailRequest;
+        if (!studentDetail.address) {
+            alert("주소를 입력해주세요.");
+            return false;
+        }
 
-    if (!student.phoneNumber) {
-        alert("전화번호를 입력해주세요.");
-        return false;
-    }
+        if (!studentDetail.phoneNumber) {
+            alert("전화번호를 입력해주세요.");
+            return false;
+        }
 
-    if (!student.email) {
-        alert("이메일을 입력해주세요.");
-        return false;
-    }
+        if (!studentDetail.email) {
+            alert("이메일을 입력해주세요.");
+            return false;
+        }
 
-    // 전화번호 형식 검사
-    const phonePattern = /^[0-9-\s]+$/;
-    if (!phonePattern.test(student.phoneNumber)) {
-        alert("올바른 전화번호 형식이 아닙니다.");
-        return false;
-    }
+        // 전화번호 형식 검사
+        const phonePattern = /^[0-9-\s]+$/;
+        if (!phonePattern.test(studentDetail.phoneNumber)) {
+            alert("올바른 전화번호 형식이 아닙니다.");
+            return false;
+        }
 
-    // 이메일 형식 검사 (입력된 경우에만)
-    if (student.email && !isValidEmail(student.email)) {
-        alert("올바른 이메일 형식이 아닙니다.");
-        return false;
+        // 이메일 형식 검사 (입력된 경우에만)
+        if (student.email && !isValidEmail(studentDetail.email)) {
+            alert("올바른 이메일 형식이 아닙니다.");
+            return false;
+        }
     }
-
     return true;
 }//validateStudent
 
@@ -159,13 +164,13 @@ function renderStudentTable(students) {
     students.forEach((student) => {
         //<tr> 엘리먼트를 생성하기 <tr><td>홍길동</td><td>aaa</td></tr>
         const row = document.createElement("tr");
-        
+
         //<tr>의 content을 동적으로 생성
         row.innerHTML = `
                     <td>${student.name}</td>
                     <td>${student.studentNumber}</td>
                     <td>${student.detail ? student.detail.address : "-"}</td>
-                    <td>${student.detail?.phoneNumber?? "-"}</td>
+                    <td>${student.detail?.phoneNumber ?? "-"}</td>
                     <td>${student.detail?.email ?? "-"}</td>
                     <td>${student.detail?.dateOfBirth ?? "-"}</td>
                     <td>
@@ -175,5 +180,5 @@ function renderStudentTable(students) {
                 `;
         //<tbody>의 아래에 <tr>을 추가시켜 준다.
         studentTableBody.appendChild(row);
-    });    
+    });
 }//renderStudentTable
